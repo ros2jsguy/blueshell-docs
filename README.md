@@ -1,5 +1,9 @@
 This fork of Blueshell is only for the purpose of generating api documentation and sharing via github pages. This fork will be removed once the original repo provides similar information to improve the usability of Blueshell.
 
+See https://ros2jsguy.github.io/blueshell-docs/
+
+
+
 # Blueshell
 
 Blueshell is a Behavior Tree implementation written in Typescript.
