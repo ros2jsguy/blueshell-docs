@@ -1,0 +1,184 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>blueshell</title><meta name="description" content="Documentation for blueshell"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">blueshell</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>blueshell </h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#blueshell" id="blueshell" style="color: inherit; text-decoration: none;">
+  <h1>Blueshell</h1>
+</a>
+<p>Blueshell is a Behavior Tree implementation written in Typescript.</p>
+<p>It is synchronous for performance - asynchronous operations can be handled by returning async operations to your framework for evaluation, these can then generate new events to drive the behavior tree.</p>
+<p><a href="https://circleci.com/gh/6RiverSystems/blueshell/tree/master"><img src="https://circleci.com/gh/6RiverSystems/blueshell/tree/master.svg?style=svg" alt="Circle CI"></a></p>
+
+<a href="#node-types" id="node-types" style="color: inherit; text-decoration: none;">
+  <h2>Node Types</h2>
+</a>
+
+<a href="#actions-aka-tasks-or-execution-nodes" id="actions-aka-tasks-or-execution-nodes" style="color: inherit; text-decoration: none;">
+  <h3>Actions (aka Tasks or Execution Nodes)</h3>
+</a>
+
+<a href="#action" id="action" style="color: inherit; text-decoration: none;">
+  <h4>Action</h4>
+</a>
+<ul>
+<li>Handles the event normally and must return a result</li>
+</ul>
+
+<a href="#predicate" id="predicate" style="color: inherit; text-decoration: none;">
+  <h4>Predicate</h4>
+</a>
+<ul>
+<li>Executes a provided synchronous function (<code>(state, event) =&gt; boolean</code>) and returns <code>SUCCESS</code> or <code>FAILURE</code> based upon the boolean result of such function.</li>
+</ul>
+
+<a href="#sideeffect" id="sideeffect" style="color: inherit; text-decoration: none;">
+  <h4>SideEffect</h4>
+</a>
+<ul>
+<li>Executes a provided synchronous function (<code>(state, event) =&gt; void</code>) and always returns <code>SUCCESS</code>.</li>
+</ul>
+
+<a href="#success" id="success" style="color: inherit; text-decoration: none;">
+  <h4>Success</h4>
+</a>
+<ul>
+<li>Immediately returns <code>SUCCESS</code> when activated.</li>
+</ul>
+
+<a href="#composites-aka-control-flow-nodes" id="composites-aka-control-flow-nodes" style="color: inherit; text-decoration: none;">
+  <h3>Composites (aka Control Flow Nodes)</h3>
+</a>
+
+<a href="#selector" id="selector" style="color: inherit; text-decoration: none;">
+  <h4>Selector</h4>
+</a>
+<p>(aka Priority or Fallback)</p>
+<ul>
+<li>Sends an event to each child until one of them returns <code>SUCCESS</code> or <code>RUNNING</code>, then returns that value.</li>
+<li>If we exhaust all the children, return <code>FAILURE</code>.</li>
+</ul>
+
+<a href="#latchedselector" id="latchedselector" style="color: inherit; text-decoration: none;">
+  <h4>LatchedSelector</h4>
+</a>
+<ul>
+<li>Sends an event to each child until one of them returns <code>SUCCESS</code> or <code>RUNNING</code>, then returns that value.</li>
+<li>If we exhaust all the children, return <code>FAILURE</code>.</li>
+<li>If a child returns <code>RUNNING</code>, subsequent events start at that child.</li>
+</ul>
+
+<a href="#sequence" id="sequence" style="color: inherit; text-decoration: none;">
+  <h4>Sequence</h4>
+</a>
+<ul>
+<li>Sends an event to each child until one of the returns <code>FAILURE</code>, or <code>RUNNING</code>, then returns that value.</li>
+<li>If all children return <code>SUCCESS</code>, return <code>SUCCESS</code>.</li>
+</ul>
+
+<a href="#latchedsequence" id="latchedsequence" style="color: inherit; text-decoration: none;">
+  <h4>LatchedSequence</h4>
+</a>
+<ul>
+<li>Sends an event to each child until one of the returns <code>FAILURE</code>, or <code>RUNNING</code>, then returns that value.</li>
+<li>If all children return <code>SUCCESS</code>, return <code>SUCCESS</code>.</li>
+<li>If a child returns <code>RUNNING</code>, subsequent events start at that child.</li>
+</ul>
+
+<a href="#ifelse" id="ifelse" style="color: inherit; text-decoration: none;">
+  <h4>IfElse</h4>
+</a>
+<ul>
+<li>Accepts a <code>conditional</code> function a <code>consequent</code> node, and an optional <code>alternative</code> node.</li>
+<li>If <code>conditional(state, event)</code> returns true, will return the result of activating the <code>consequent</code> node.</li>
+<li>If <code>conditional(state, event)</code> returns false, will return the result of activating the <code>alternative</code> node, if one is provided.</li>
+<li>If <code>conditional(state, event)</code> returns false, will return <code>FAILURE</code> if no <code>alternative</code> node is provided.</li>
+</ul>
+
+<a href="#decorators" id="decorators" style="color: inherit; text-decoration: none;">
+  <h3>Decorators</h3>
+</a>
+<p>Decorators intercept and can modify the event sent to or the result from the child.</p>
+
+<a href="#not" id="not" style="color: inherit; text-decoration: none;">
+  <h4>Not</h4>
+</a>
+<ul>
+<li>Returns &#39;FAILURE&#39; when the child returns &#39;SUCCESS&#39;, and vice-versa</li>
+</ul>
+
+<a href="#repeatwhen" id="repeatwhen" style="color: inherit; text-decoration: none;">
+  <h4>RepeatWhen</h4>
+</a>
+<ul>
+<li>Repeats the child when an evaluation function returns true.</li>
+</ul>
+
+<a href="#repeatonresult" id="repeatonresult" style="color: inherit; text-decoration: none;">
+  <h4>RepeatOnResult</h4>
+</a>
+<ul>
+<li>Repeats the child if it returns the specified status.</li>
+</ul>
+
+<a href="#resultswap" id="resultswap" style="color: inherit; text-decoration: none;">
+  <h4>ResultSwap</h4>
+</a>
+<ul>
+<li>Allows you to swap one result of a child node for another.</li>
+<li>For example, you can use this to mask <code>FAILURE</code> as <code>SUCCESS</code>.</li>
+</ul>
+
+<a href="#base-classes" id="base-classes" style="color: inherit; text-decoration: none;">
+  <h3>Base Classes</h3>
+</a>
+
+<a href="#base" id="base" style="color: inherit; text-decoration: none;">
+  <h4>Base</h4>
+</a>
+<ul>
+<li>The base of all nodes.</li>
+</ul>
+
+<a href="#composite" id="composite" style="color: inherit; text-decoration: none;">
+  <h4>Composite</h4>
+</a>
+<ul>
+<li>The base class for all nodes which have children.</li>
+</ul>
+
+<a href="#decorator" id="decorator" style="color: inherit; text-decoration: none;">
+  <h4>Decorator</h4>
+</a>
+<ul>
+<li>The base class for decorators.</li>
+<li>Can only have one child.</li>
+</ul>
+
+<a href="#publishing" id="publishing" style="color: inherit; text-decoration: none;">
+  <h2>Publishing</h2>
+</a>
+<ul>
+<li>The publisher can be registered with the tree which will log each transition.</li>
+</ul>
+
+<a href="#inspiration-and-further-reading" id="inspiration-and-further-reading" style="color: inherit; text-decoration: none;">
+  <h2>Inspiration and Further Reading</h2>
+</a>
+<p>The following are sources used when designing this library</p>
+<ul>
+<li><a href="http://stackoverflow.com/a/15725129/1017787">Handling Node Traversal</a></li>
+<li><a href="http://gamedev.stackexchange.com/questions/51693/decision-tree-vs-behavior-tree">Difference between a Decision Tree and a Behavior Tree</a></li>
+<li><a href="http://www.gamasutra.com/blogs/ChrisSimpson/20140717/221339/Behavior_trees_for_AI_How_they_work.php">Behavior Trees for AI</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Behavior_tree_(artificial_intelligence,_robotics_and_control)">Wikipedia Article</a></li>
+<li><a href="https://opsive.com/support/documentation/behavior-designer/what-is-a-behavior-tree/">What is a Behavior Tree?</a></li>
+<li><a href="http://www.gamasutra.com/view/feature/130663/gdc_2005_proceeding_handling_.php">Halo 2&#39;s AI</a><ul>
+<li>Halo 2 was the first game to popularize Behavior Trees.</li>
+</ul>
+</li>
+</ul>
+
+<a href="#name" id="name" style="color: inherit; text-decoration: none;">
+  <h2>Name</h2>
+</a>
+<p><code>Blueshell</code> is named for a <em>Skroderider</em> from the novel <a href="https://en.wikipedia.org/wiki/A_Fire_Upon_the_Deep"><em>A Fire Upon the Deep</em></a>
+by Vernor Vinge. Skroderiders are intelligent plants (trees) that use mechanical constructs to give them locomotion
+and short-term memory.</p>
+<p>In other words, <code>Blueshell</code> is an intelligent tree. Or a tree with behavior. Get it?</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li><li class=" tsd-kind-namespace"><a href="modules/decorators.html">decorators</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-reference"><a href="modules.html#Condition" class="tsd-kind-icon">Condition</a></li><li class="tsd-kind-reference"><a href="modules.html#resultCodes" class="tsd-kind-icon">result<wbr/>Codes</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/Action.html" class="tsd-kind-icon">Action</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/Composite.html" class="tsd-kind-icon">Composite</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/Constant.html" class="tsd-kind-icon">Constant</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/Decorator.html" class="tsd-kind-icon">Decorator</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/IfElse.html" class="tsd-kind-icon">If<wbr/>Else</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/IfElseWithNodeCondition.html" class="tsd-kind-icon">If<wbr/>Else<wbr/>With<wbr/>Node<wbr/>Condition</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/LatchedIfElse.html" class="tsd-kind-icon">Latched<wbr/>If<wbr/>Else</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/LatchedSelector.html" class="tsd-kind-icon">Latched<wbr/>Selector</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/LatchedSequence.html" class="tsd-kind-icon">Latched<wbr/>Sequence</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/LatchedSwitch.html" class="tsd-kind-icon">Latched<wbr/>Switch</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/NodeManager.html" class="tsd-kind-icon">Node<wbr/>Manager</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/Parent.html" class="tsd-kind-icon">Parent</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/Predicate.html" class="tsd-kind-icon">Predicate</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/RunningAction.html" class="tsd-kind-icon">Running<wbr/>Action</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/Selector.html" class="tsd-kind-icon">Selector</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/Sequence.html" class="tsd-kind-icon">Sequence</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/SideEffect.html" class="tsd-kind-icon">Side<wbr/>Effect</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/Success.html" class="tsd-kind-icon">Success</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/Switch.html" class="tsd-kind-icon">Switch</a></li><li class="tsd-kind-class"><a href="classes/TreeNonPublisher.html" class="tsd-kind-icon">Tree<wbr/>Non<wbr/>Publisher</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/BaseNode.html" class="tsd-kind-icon">Base<wbr/>Node</a></li><li class="tsd-kind-interface"><a href="interfaces/BlueshellState.html" class="tsd-kind-icon">Blueshell<wbr/>State</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/Conditional.html" class="tsd-kind-icon">Conditional</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/ConditionalWithResult.html" class="tsd-kind-icon">Conditional<wbr/>With<wbr/>Result</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/INodeManager.html" class="tsd-kind-icon">INode<wbr/>Manager</a></li><li class="tsd-kind-interface"><a href="interfaces/NodeStorage.html" class="tsd-kind-icon">Node<wbr/>Storage</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/ParentNode.html" class="tsd-kind-icon">Parent<wbr/>Node</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/SwitchEntry.html" class="tsd-kind-icon">Switch<wbr/>Entry</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/TreePublisher.html" class="tsd-kind-icon">Tree<wbr/>Publisher</a></li><li class="tsd-kind-type-alias"><a href="modules.html#ResultCode" class="tsd-kind-icon">Result<wbr/>Code</a></li><li class="tsd-kind-variable"><a href="modules.html#rc" class="tsd-kind-icon">rc</a></li><li class="tsd-kind-variable"><a href="modules.html#renderTree" class="tsd-kind-icon">render<wbr/>Tree</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#isParentNode" class="tsd-kind-icon">is<wbr/>Parent<wbr/>Node</a></li><li class="tsd-kind-function"><a href="modules.html#isResultCode" class="tsd-kind-icon">is<wbr/>Result<wbr/>Code</a></li></ul></nav></div></div></div><footer class=""><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li><li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li><li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="overlay"></div><script src="assets/main.js"></script></body></html>
